@@ -1,3 +1,4 @@
+/* OLD CODE, CODE HAS BEEN MOVED TO TWEEPY API
 const rwClient = require("./twitterClient.js")
 
 const tweet = async () => {
@@ -8,4 +9,4 @@ const tweet = async () => {
     }
 }
 
-tweet()
+tweet()*/

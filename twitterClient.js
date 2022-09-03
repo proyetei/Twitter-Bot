@@ -1,4 +1,4 @@
-const {TwitterApi} = require("twitter-api-v2")
+/*const {TwitterApi} = require("twitter-api-v2")
 const tokens = require("./twitterKeys.json")
 console.log(tokens)
 
@@ -14,4 +14,4 @@ const twitterClient = new TwitterApi({
 // Tell typescript it's a read and write app
 const rwClient = twitterClient.readWrite;
 
-module.exports = rwClient
+module.exports = rwClient*/
