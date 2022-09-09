@@ -1,3 +1,4 @@
+from logging import exception
 import tweepy
 import json
 import time
@@ -66,3 +67,29 @@ for term in searchTerms:
 
 stream.filter(tweet_fields=["referenced_tweets"])
 '''
+
+
+#THE CODE BELOW REPLIES TO TWEETS I HAVE BEEN TAGGED IN
+message = "I have been tagged"
+#our ID
+client_id = client.get_me().data.id
+start_id = 1
+initialisation_resp = client.get_users_mentions(client_id)
+if initialisation_resp.data != None:
+    start_id = initialisation_resp.data[0].id
+
+#this loop will look for tweets that mention me
+while True:
+    #search for tweets that mention me
+    response = client.get_users_mentions(client_id, since_id=start_id)
+    #check if response is not empty
+    if response.data != None:
+        for tweet in response.data:
+            try:
+                print(tweet.text)
+                client.create_tweet(in_reply_to_tweet_id=tweet.id, text=message)
+                start_id = tweet.id
+            except Exception as error:
+                print(error)
+                pass
+    time.sleep(2)
