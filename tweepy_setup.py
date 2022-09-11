@@ -2,6 +2,9 @@ from logging import exception
 import tweepy
 import json
 import time
+import imdb
+
+movies = imdb.IMDb()
 
 f = open("twitterKeys.json")
 data = json.load(f)
@@ -70,7 +73,7 @@ stream.filter(tweet_fields=["referenced_tweets"])
 
 
 #THE CODE BELOW REPLIES TO TWEETS I HAVE BEEN TAGGED IN
-message = "I have been tagged"
+message = ""
 #our ID
 client_id = client.get_me().data.id
 start_id = 1
@@ -80,6 +83,8 @@ if initialisation_resp.data != None:
 
 #this loop will look for tweets that mention me
 while True:
+    counter = 0
+    message = ""
     #search for tweets that mention me
     response = client.get_users_mentions(client_id, since_id=start_id)
     #check if response is not empty
@@ -87,9 +92,22 @@ while True:
         for tweet in response.data:
             try:
                 print(tweet.text)
+                movieName = " ".join(tweet.text.split(" ")[1:])
+                moviesFound = movies.search_movie(movieName)
+                print(moviesFound)
+                print("Searching for "+movieName)
+                for movie in moviesFound:
+                    if (counter > 5):
+                        break
+                    title = str(movie['title'])
+                    year = str(movie['year'])
+                    message += title + " " + year + "\n"
+                    counter += 1
+                print(message)
                 client.create_tweet(in_reply_to_tweet_id=tweet.id, text=message)
                 start_id = tweet.id
             except Exception as error:
                 print(error)
                 pass
     time.sleep(2)
+
