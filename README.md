@@ -1,4 +1,4 @@
-Twitter Bot.
+Twitter Bot which searches for tweets it was tagged in along with a movie name and then replies with the movies found on imdb
 
 How to use tweepy
 run pip install tweep
