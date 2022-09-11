@@ -91,17 +91,16 @@ while True:
     if response.data != None:
         for tweet in response.data:
             try:
-                print(tweet.text)
                 movieName = " ".join(tweet.text.split(" ")[1:])
                 moviesFound = movies.search_movie(movieName)
-                print(moviesFound)
                 print("Searching for "+movieName)
+                message += "Here are the shows I found on IMDB related to " + movieName + "\n"
                 for movie in moviesFound:
-                    if (counter > 5):
+                    if (counter > 3):
                         break
                     title = str(movie['title'])
                     year = str(movie['year'])
-                    message += title + " " + year + "\n"
+                    message += title + " - Year released: " + year + "\n"
                     counter += 1
                 print(message)
                 client.create_tweet(in_reply_to_tweet_id=tweet.id, text=message)
